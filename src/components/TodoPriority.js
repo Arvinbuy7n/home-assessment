@@ -33,7 +33,7 @@ export const TodoPriority = () => {
         <div className="flex gap-2">
           <input
             type="text"
-            placeholder="Add task"
+            placeholder="Add task & priority"
             aria-label="Task input"
             className="p-2 bg-transparent outline-none border border-slate-400 rounded-lg bg-white"
             value={inputVal}

@@ -7,6 +7,7 @@ import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
 } from "react-icons/md";
+import { IoIosSearch } from "react-icons/io";
 
 export const TodoSearch = () => {
   const {
@@ -28,7 +29,7 @@ export const TodoSearch = () => {
 
   return (
     <div className="border p-4 rounded-lg">
-      <div className="flex gap-4 mb-4 border border-slate-600 rounded-2xl p-2 items-center">
+      <div className="flex gap-4 mb-4 border border-slate-500 rounded-2xl p-3 items-center">
         <div className="flex flex-col gap-2">
           <input
             type="text"
@@ -39,19 +40,22 @@ export const TodoSearch = () => {
             onChange={handleInputChange}
           />
 
-          <input
-            type="text"
-            placeholder="Search..."
-            aria-label="Search input"
-            className="p-2 border border-slate-400 rounded-lg bg-white"
-            value={searchValue}
-            onChange={handleSearchChange}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              aria-label="Search input"
+              className="p-2 border border-slate-400 rounded-lg bg-white"
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+            <IoIosSearch className="absolute right-2 bottom-3 text-gray-500 text-lg" />
+          </div>
         </div>
 
         <button
           onClick={handleTaskAction}
-          className="px-4 py-2 bg-violet-500 text-white rounded-2xl hover:bg-violet-600"
+          className="px-4 py-2 bg-violet-500 text-white rounded-xl hover:bg-violet-600"
         >
           {editedId ? "Update" : "Add Task"}
         </button>

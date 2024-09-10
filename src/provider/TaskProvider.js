@@ -11,6 +11,7 @@ export const TodoProvider = ({ children }) => {
   const [dueDate, setDueDate] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [priority, setPriority] = useState("Low");
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const storeTask = localStorage.getItem("tasks");
@@ -40,7 +41,7 @@ export const TodoProvider = ({ children }) => {
   };
 
   const handleTaskAction = () => {
-    if (inputVal.trim() === "") return;
+    if (inputVal.trim() === "" || dueDate.trim() === "") return;
 
     if (editedId) {
       setTasks(
@@ -60,6 +61,7 @@ export const TodoProvider = ({ children }) => {
     setInputVal("");
     setDueDate("");
     setPriority("Low");
+    setOpenModal(false);
   };
 
   const handleDelete = (id) => {
@@ -96,6 +98,8 @@ export const TodoProvider = ({ children }) => {
         handleSearchChange,
         priority,
         handlePriorityChange,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}
