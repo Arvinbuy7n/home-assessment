@@ -15,7 +15,7 @@ export const TodoItem = ({
   return (
     <div
       key={todo.id}
-      className="flex justify-between items-center p-3 border border-[#888] rounded-lg bg-white shadow-xl"
+      className="flex justify-between items-center p-3 border border-slate-400 rounded-lg bg-white shadow-xl"
     >
       <div className="flex items-center">
         <span className="cursor-pointer" onClick={() => onToggle(todo.id)}>

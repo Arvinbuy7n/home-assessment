@@ -39,7 +39,7 @@ export const TodoMainComponent = () => {
   });
 
   return (
-    <div className="border px-4 pt-4 rounded-lg relative flex flex-col gap-4">
+    <div className="border p-4 rounded-lg relative flex flex-col gap-4">
       <div className="flex justify-between">
         <div
           className="flex items-center gap-2 cursor-pointer ml-2"
@@ -75,18 +75,20 @@ export const TodoMainComponent = () => {
         editedId={editedId}
       />
 
-      <ul className="flex flex-col gap-4 px-2 pt-2 pb-4 rounded-lg">
-        {sortedTasks.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-            onToggle={toggleCompleted}
-            setOpenModal={setOpenModal}
-          />
-        ))}
-      </ul>
+      {sortedTasks.length > 0 && (
+        <ul className="flex flex-col gap-4 p-2 rounded-lg">
+          {sortedTasks.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+              onToggle={toggleCompleted}
+              setOpenModal={setOpenModal}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
