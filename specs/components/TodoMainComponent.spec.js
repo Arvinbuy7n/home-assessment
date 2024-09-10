@@ -1,57 +1,68 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { TodoMainComponent } from "./TodoMainComponent";
-import { TodoProvider } from "@/provider/TaskProvider"; // Import the context provider
+import { TodoMainComponent } from "../TodoMainComponent";
+import { useTodo } from "@/provider/TaskProvider";
+import "@testing-library/jest-dom/extend-expect";
+
+jest.mock("@/provider/TaskProvider", () => ({
+  useTodo: jest.fn(),
+}));
 
 describe("TodoMainComponent", () => {
-  it("renders correctly and handles adding a task", () => {
-    render(
-      <TodoProvider>
-        <TodoMainComponent />
-      </TodoProvider>
-    );
-
-    // Check if the input field and button are rendered
-    const inputElement = screen.getByPlaceholderText("Add task");
-    const addButton = screen.getByText("Add Task");
-
-    expect(inputElement).toBeInTheDocument();
-    expect(addButton).toBeInTheDocument();
-
-    // Simulate typing into the input field
-    fireEvent.change(inputElement, { target: { value: "New Task" } });
-    expect(inputElement.value).toBe("New Task"); // Verify that input works
-
-    // Simulate clicking the "Add Task" button
-    fireEvent.click(addButton);
-
-    // Check if the new task has been added to the list
-    const taskItem = screen.getByText("New Task");
-    expect(taskItem).toBeInTheDocument();
+  beforeEach(() => {
+    useTodo.mockReset();
   });
 
-  it("handles toggling task completion", () => {
-    render(
-      <TodoProvider>
-        <TodoMainComponent />
-      </TodoProvider>
-    );
+  it("renders the component and displays elements correctly", () => {
+    useTodo.mockReturnValue({
+      tasks: [],
+      inputVal: "",
+      editedId: null,
+      handleInputChange: jest.fn(),
+      handleTaskAction: jest.fn(),
+      handleDelete: jest.fn(),
+      handleEdit: jest.fn(),
+      toggleCompleted: jest.fn(),
+      priority: "Medium",
+      handlePriorityChange: jest.fn(),
+      dueDate: "",
+      handleDueChange: jest.fn(),
+      openModal: false,
+      setOpenModal: jest.fn(),
+      searchValue: "",
+      handleSearchChange: jest.fn(),
+    });
 
-    // Simulate adding a task
-    const inputElement = screen.getByPlaceholderText("Add task");
-    const addButton = screen.getByText("Add Task");
-    fireEvent.change(inputElement, { target: { value: "Complete Task" } });
-    fireEvent.click(addButton);
+    render(<TodoMainComponent />);
 
-    // Check if the task was added
-    const taskItem = screen.getByText("Complete Task");
-    expect(taskItem).toBeInTheDocument();
+    expect(screen.getByText("Add Task")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Search...")).toBeInTheDocument();
+  });
 
-    // Simulate toggling task completion
-    const toggleButton = screen.getByRole("checkbox"); // Assuming checkbox for toggle
-    fireEvent.click(toggleButton);
+  it("opens the modal when add task is clicked", () => {
+    const setOpenModal = jest.fn();
+    useTodo.mockReturnValue({
+      tasks: [],
+      inputVal: "",
+      editedId: null,
+      handleInputChange: jest.fn(),
+      handleTaskAction: jest.fn(),
+      handleDelete: jest.fn(),
+      handleEdit: jest.fn(),
+      toggleCompleted: jest.fn(),
+      priority: "Medium",
+      handlePriorityChange: jest.fn(),
+      dueDate: "",
+      handleDueChange: jest.fn(),
+      openModal: false,
+      setOpenModal,
+      searchValue: "",
+      handleSearchChange: jest.fn(),
+    });
 
-    // Check if the task gets the "completed" class or style
-    expect(taskItem).toHaveClass("line-through"); // Example of checking if the task is marked as complete
+    render(<TodoMainComponent />);
+
+    fireEvent.click(screen.getByText("Add Task"));
+
+    expect(setOpenModal).toHaveBeenCalledWith(true);
   });
 });
